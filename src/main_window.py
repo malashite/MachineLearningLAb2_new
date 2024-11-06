@@ -177,6 +177,9 @@ class MainWindow(QMainWindow):
         
     def start_training(self):
         """Начало процесса обучения"""
+        # Сбрасываем веса сети перед новым обучением
+        self.neural_network.reset()
+        
         # Получаем параметры
         epochs = self.epochs_spinbox.value()
         learning_rate = self.lr_spinbox.value()

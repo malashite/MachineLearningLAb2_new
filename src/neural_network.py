@@ -347,7 +347,7 @@ class NeuralNetwork:
         tp = np.sum(correct_predictions)
         
         # Правильные отрицательные прогнозы (TN)
-        # Когда предсказание и истинное значение оба отрицательные
+        # Когда предсказание и истинное значение оба от��ицательные
         tn = len(predicted) - tp
         
         # Precision = TP / (TP + TN)
@@ -381,3 +381,24 @@ class NeuralNetwork:
     def sigmoid(self, x):
         """Сигмоидная функция активации"""
         return 1 / (1 + np.exp(-np.clip(x, -500, 500)))  # Clip для численной стабильности
+
+    def reset(self):
+        """Сброс весов сети к начальным значениям"""
+        print("Сброс весов нейронной сети...")
+        
+        # Пересоздаем веса и смещения с начальными значениями
+        layer_sizes = [self.input_size] + [256, 128, 64] + [self.output_size]
+        
+        self.weights = []
+        self.biases = []
+        
+        for i in range(len(layer_sizes) - 1):
+            # Инициализация He с небольшим шумом
+            weight = np.random.randn(layer_sizes[i], layer_sizes[i+1]) * np.sqrt(2.0 / layer_sizes[i])
+            weight += np.random.randn(layer_sizes[i], layer_sizes[i+1]) * 0.01
+            bias = np.zeros(layer_sizes[i+1])
+            
+            self.weights.append(weight)
+            self.biases.append(bias)
+        
+        self.is_trained = False
