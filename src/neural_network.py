@@ -11,8 +11,8 @@ class NeuralNetwork:
         self.output_size = output_size
         self.is_trained = False  # Флаг обученности
         
-        # Увеличим размер скрытых слоев
-        layer_sizes = [input_size] + [256, 128, 64] + [output_size]
+        # Используем переданные параметры
+        layer_sizes = [input_size] + hidden_layers + [output_size]
         
         # Инициализация весов и смещений
         self.weights = []
@@ -320,7 +320,7 @@ class NeuralNetwork:
         return loss, accuracy, precision, recall
 
     def calculate_loss(self, output, y):
-        """Категориальная кросс-энтропия"""
+        """К��тегориальная кросс-энтропия"""
         epsilon = 1e-15
         output = np.clip(output, epsilon, 1 - epsilon)
         return -np.mean(np.sum(y * np.log(output), axis=1))
@@ -347,7 +347,7 @@ class NeuralNetwork:
         tp = np.sum(correct_predictions)
         
         # Правильные отрицательные прогнозы (TN)
-        # Когда предсказание и истинное значение оба от��ицательные
+        # Когда предсказание и истинное значение оба отрицательные
         tn = len(predicted) - tp
         
         # Precision = TP / (TP + TN)
